@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "_default": {
+            "link": "syllogismos"
+        }, 
+        "syllogismos": {
+            "applicationId": "w2akEFYvsfFnLYro0PVaH2phaoK50n97pNuvFV4T", 
+            "masterKey": "uA4IZ3RVmknOSIb0h7ouv9Duo4xq4DU7UDsg2QTp"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.19"
+    }
+}
