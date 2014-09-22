@@ -21,14 +21,14 @@ var Person = Backbone.Model.extend({
 });
 
 
-
+// 50.63.202.59
 
 
 
 // This is an example of hooking up a request handler with a specific request
 // path and HTTP verb using the Express routing API.
 app.get('/hello', function(req, res) {
-  res.render('hello', { message: 'Congrats, you just set up your app!' });
+  res.render('hello', { message: 'Lel, you just set up your app!' });
 });
 
 app.get('/person', function(req, res) {

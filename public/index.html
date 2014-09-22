@@ -1,21 +1,198 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>My ParseApp site</title>
-    <style>
-    body { font-family: Helvetica, Arial, sans-serif; }
-    div { width: 800px; height: 400px; margin: 40px auto; padding: 20px; border: 2px solid #5298fc; }
-    h1 { font-size: 30px; margin: 0; }
-    p { margin: 40px 0; }
-    em { font-family: monospace; }
-    a { color: #5298fc; text-decoration: none; }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+    <title>Stochastic Gradient Descent in AD.</title>
+    <meta name="description" content="" />
+    
+    <meta name="HandheldFriendly" content="True" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="./favicon.ico">
+
+    <!-- Bootstrap -->
+    <link href="./assets/css/bootstrap.css" rel="stylesheet">
+    <!-- CSS3 Animations -->
+    <link href="./assets/css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="./assets/css/screen.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+    <!-- FontAwesome Font Icons -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <meta name="generator" content="Ghost 0.5" />
+<link rel="alternate" type="application/rss+xml" title="My Blog" href="../rss/index.html">
+<link rel="canonical" href="http://my-ghost-blog.com/stochastic-gradient-descent-in-ad/" />
   </head>
-  <body>
-    <div>
-      <h1>Congratulations! You're already hosting with Parse.</h1>
-      <p>To get started, edit this file at <em>public/index.html</em> and start adding static content.</p>
-      <p>If you want something a bit more dynamic, delete this file and check out <a href="https://parse.com/docs/hosting_guide#webapp">our hosting docs</a>.</p>
+  <body class="post-template tag-stochastic-gradient-descent tag-machine-learning tag-ad tag-haskell">
+
+        <nav class="navbar navbar-default" role="navigation" id="main-navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://syllogismos.github.io">
+              My Blog<small>I think I also like yellow.</small>
+          </a>
+        </div>
+    
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <a href="//twitter.com/2abstract4me"><i class="fa fa-2x fa-twitter-square navbar-right" style="padding:10px"></i></a>
+          <a href="//github.com/syllogismos"><i class="fa fa-2x fa-github-square navbar-right" style="padding:10px"></i></a>
+          <a href="#"><i class="fa fa-2x fa-rss-square navbar-right" style="padding:10px"></i></a>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container -->
+    </nav>
+    <div class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 posts">
+                    <article class="post tag-stochastic-gradient-descent tag-machine-learning tag-ad tag-haskell">
+                        <div class="post-header">
+                            <div class="post-title">
+                                <h2>Stochastic Gradient Descent in AD.</h2>
+                            </div>
+                            <hr class="divider" />
+                            <div class="post-date">
+                                <span title="2014">17</span>
+                                Sep
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>
+                                <p>In <strong>stochastic gradient descent</strong>, the true gradient is approximated by gradient at each single example.</p>
+
+<p><img src="http://upload.wikimedia.org/math/7/d/9/7d9f6671a202d94d26730ef898d8d4f2.png" style="width:inherit"/></p>
+
+<p>As the algorithm sweeps through the training set, it performs the above update for each training example. Several passes can be made over the training set until the algorithm converges, if this is done, the data can be shuffled for each pass to prevent cycles.</p>
+
+<p>Obviously it is faster than normal gradient descent, cause we don't have to compute  cost function over the entire data set in each iteration in case of stochastic gradinet descent.</p>
+
+<h2 id="stochasticgradientdescentinad">stochasticGradientDescent in AD:</h2>
+
+<p>This is my implementation of Stochastic Gradient Descent in AD library, you can get it from <a href="http://github.com/syllogismos/ad">my fork</a> of AD.</p>
+
+<p>Its type signature is  </p>
+
+<script src="https://gist.github.com/syllogismos/7f12c93cfde5dba868cf.js"></script>
+
+<h4 id="itsargumentsare">Its arguments are:</h4>
+
+<script src="https://gist.github.com/syllogismos/2c78adc0d5a9a27fdf97.js"></script>  
+
+<ul>
+<li>errorSingle function, that computes error in a single training sample given <code>theta</code></li>
+<li>Entire training data, you should be able to map the above <code>errorSingle</code> function over the training data.</li>
+<li>and initial Theta</li>
+</ul>
+
+<h2 id="example">Example:</h2>
+
+<p><a href="https://raw.githubusercontent.com/syllogismos/machine-learning-haskell/master/exampledata.txt">Here</a> is the sample data I'm running <code>stochasticGradientDescent</code> on.</p>
+
+<p>Its just 97 rows of samples with two columns, first column is <code>y</code> and the other is <code>x</code></p>
+
+<p>Below is our error function, a simple squared loss error function. You can introduce regularization here if you want.  </p>
+
+<script src="https://gist.github.com/syllogismos/a242a7df1de346a94a96.js"></script>  
+
+<p>Running Stochastic Gradient Descent:  </p>
+
+<script src="https://gist.github.com/syllogismos/313670f337e92c27cfdb.js"></script>
+
+<h2 id="crosscheckingwithsgdregressorhttpscikitlearnorgstablemodulesgeneratedsklearnlinear_modelsgdregressorhtmlfromscikitlearn">Cross checking with <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html">SGDRegressor</a> from scikit-learn</h2>
+
+<script src="https://gist.github.com/syllogismos/ace3db2e498644fa4755.js"></script>
+
+<p>The only restriction we have in our implementation of stochasticGradientDescent is that we set the learning rate a default value of 0.001 and is a constant through out the algorithm.</p>
+
+<p>The rest of the things like the sort of regulariztion, regularization parameter, loss function we are using, we can specify in <code>errorSingle</code>.</p>
+
+<h2 id="results">Results:</h2>
+
+<p>So when <code>n_iter = 1</code>, went through the entire data set once, so we must check <code>97th</code> theta from our regression result from <strong>AD</strong>. <br />
+Similarly <code>n_iter = 2</code> implies <code>97*2</code> iteration in our implementation, and etc.,  </p>
+
+<script src="https://gist.github.com/syllogismos/311b1e541196aef0bbe0.js"></script>
+
+<p><a href="http://www.github.com/syllogismos/machine-learning-haskell">Here</a> in this repository, you can find the ipython notebook and haskell code so that you can test these yourself.</p>
+
+<h2 id="references">References:</h2>
+
+<ol>
+<li><a href="http://en.wikipedia.org/wiki/Stochastic_gradient_descent">Stochastic Gradient Descent on wikipedia</a>  </li>
+<li><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html">SGDRegressor from scikit-learn</a>  </li>
+<li><a href="http://www.quora.com/Whats-the-difference-between-gradient-descent-and-stochastic-gradient-descent">Gradient Descent vs Stochastic Gradient Descent</a>  </li>
+<li><a href="http://metaoptimize.com/qa/questions/10046/batch-gradient-descent-vs-stochastic-gradient-descent">Batch Gradient Descent vs Stochastic Gradient Descent</a>  </li>
+<li><a href="http://stats.stackexchange.com/questions/49528/batch-gradient-descent-versus-stochastic-gradient-descent">Batch Gradient Descent vs Stochastic Gradient Descent</a> </li>
+</ol>
+                            </p>
+                        </div>
+                        <hr />
+                        <div class="post-meta">
+                            by <span class="author-name">syllogismos</span>
+                            <div class="share-icons pull-right">
+                                Share: <i class="fa fa-share"></i>
+                                <ul class="list-inline list-share-icons">
+                                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=http://my-ghost-blog.com/stochastic-gradient-descent-in-ad/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;"><i class="fa fa-facebook fb-tooltip"></i></a></li>
+                                    <li><a href="https://twitter.com/share?text=Stochastic%20Gradient%20Descent%20in%20AD.&amp;url=http://my-ghost-blog.com/stochastic-gradient-descent-in-ad/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;"><i class="fa fa-twitter tw-tooltip"></i></a></li>
+                                    <li><a href="https://plus.google.com/share?url=http://my-ghost-blog.com/stochastic-gradient-descent-in-ad/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;"><i class="fa fa-google-plus gp-tooltip"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr />
+                    </article>
+
+                </div>
+            </div>
+        </div>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        <a href="http://my-ghost-blog.com/">My Blog</a> &copy; 2014 - All Rights Reserved.
+                    </p>
+                    <p>
+                        Proudly powered by <a href="http://ghost.org">Ghost</a>.
+                    </p>
+                    <a id="go-top" href="index.html#" class="go-top"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./public/jquery.js"></script>
+
+    <!-- jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <!-- Responsive Videos -->
+    <script src="./assets/js/jquery.fitvids.js"></script>
+    <!-- Nice Scroll -->
+    <script src="./assets/js/jquery.nicescroll.min.js"></script>
+    <!-- Custom Scripts -->
+    <script src="./assets/js/custom.js"></script>
   </body>
 </html>
