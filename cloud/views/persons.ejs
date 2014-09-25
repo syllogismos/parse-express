@@ -17,13 +17,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% for(var i=0; i<person.length; i++) { %>
+			<% persons.forEach(function (person) { %>
 				<tr>
-					<td><%= person[i].get('firstname') %></td>
-					<td><%= person[i].get('lastname') %></td>
-					<td><%= person[i].get('age') %></td>
+					<td><%= person.get('firstname') %></td>
+					<td><%= person.get('lastname') %></td>
+					<td><%= person.get('age') %></td>
 				</tr>
-			<% } %>
+			<% }) %>
 		</tbody>
 	</table>
 	</body>
