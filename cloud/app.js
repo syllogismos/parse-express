@@ -27,11 +27,3 @@ app.post('/hello', function(req, res){
 
 // Attach the Express app to Cloud Code.
 app.listen();
-
-/*
-Update failed with Could not load triggers.  The error was Error: Uncaught Synta
-xError: Unexpected token ) in controllers/person.js:8
-    at app.js:6:25
-    at main.js:1:1
-Deploying recent changes.
-*/
