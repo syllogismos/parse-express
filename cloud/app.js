@@ -5,13 +5,14 @@ var md5 = require('cloud/libs/md5.js');
 
 var personsController = require('cloud/controllers/person.js');
 var adminController = require('cloud/controllers/admin.js');
+var postsController = require('cloud/controllers/posts.js');
 var app = express();
 
 var basicAuth = express.basicAuth('anilkaraka@outlook.com', 'test');
 
 var userEmail = 'anilkaraka@outlook.com';
 var userDisplayName = 'syllogismos';
-var userDiscription = 'lulzz';
+var userDescription = 'lulzz';
 
 // Global app configuration section
 app.set('views', 'cloud/views');  // Specify the folder to find templates
@@ -20,6 +21,21 @@ app.use(express.bodyParser());    // Middleware for reading request body
 
 app.locals._ = _;
 app.locals.hex_md5 = md5.hex_md5;
+app.locals.userEmail = userEmail;
+app.locals.userDescription = userDescription;
+app.locals.userDisplayName = userDisplayName;
+app.locals.formatTime = function(time){
+  return moment(time).format('MMMM Do YYYY, h:mm a');
+};
+
+app.locals.snippet = function(text, length){
+  if (text.length < length) {
+    return text;
+  } else {
+    var regEx = new RegExp("^.{" + length + "}[^ ]*");
+    return regEx.exec(text)[0] + "...";
+  }
+};
 
 
 // testing get, post VERBS
@@ -31,8 +47,13 @@ app.post('/hello', function(req, res){
 	res.render('hello', {message: req.body.message});
 });
 
-// admin get requests
+// admin requests
 app.get('/admin', basicAuth, adminController.index);
+
+// posts requests
+app.get('/posts', postsController.index);
+app.get('/posts/new', basicAuth, postsController.new);
+app.post('/posts', basicAuth, postsController.create);
 
 // Attach the Express app to Cloud Code.
 app.listen();
