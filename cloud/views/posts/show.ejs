@@ -1,0 +1,17 @@
+<% title = post.get('title') %>
+<% include ../_header %>
+
+<div class='header'></div>
+
+<% include _post %>
+
+<div class='comments'>
+	<div class='number'><%= comments.length %> <%= comments.length === 1 ? 'comment' : 'comments' %> </div>
+
+	<% comments.forEach(function(comment) { %> 
+		<% include ../comments/_comment %>
+	<% }) %>
+	<% include ../comments/_new %>
+</div>
+
+<% include ../_footer %>

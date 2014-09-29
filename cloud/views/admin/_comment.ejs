@@ -1,0 +1,20 @@
+<div class='comment_item'>
+	<div class='comment_body'>
+		<%= comment.get('body') %>
+	</div>
+
+	<div class='comment_footer'>
+		<%= comment.get('author') %>
+		<div class='pipe_separator'>|</div>
+		<%= formatTime(comment.cratedAt) %>
+	</div>
+
+	<div class='comment_actions'>
+		<a href="<%= '/posts/' + comment.get('post').id %>">go to post</a>
+		<form class='link_button_from' method='post' action="<%= '/posts/' + comment.get('post').id + '/comments/' + comment.id %>">
+
+			<input type='hidden' name='_method' value='delete'/>
+			<input class='link_button' type='submit' value='delete' />
+		</form>
+	</div>
+</div>
