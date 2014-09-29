@@ -6,6 +6,7 @@ var md5 = require('cloud/libs/md5.js');
 var personsController = require('cloud/controllers/person.js');
 var adminController = require('cloud/controllers/admin.js');
 var postsController = require('cloud/controllers/posts.js');
+var commentsController = require('cloud/controllers/comments.js');
 var app = express();
 
 var basicAuth = express.basicAuth('anilkaraka@outlook.com', 'test');
@@ -54,6 +55,9 @@ app.get('/admin', basicAuth, adminController.index);
 app.get('/posts', postsController.index);
 app.get('/posts/new', basicAuth, postsController.new);
 app.post('/posts', basicAuth, postsController.create);
+app.get('/posts/:id', postsController.show);
+
+app.post('/posts/:post_id/comments', commentsController.create);
 
 // Attach the Express app to Cloud Code.
 app.listen();
