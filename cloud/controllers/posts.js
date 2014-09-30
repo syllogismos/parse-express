@@ -84,3 +84,34 @@ exports.update = function(req, res){
 		res.send(500, 'failed saving post');
 	});
 };
+
+var deleteRecursive = function(objects, index, callback) {
+	if (index >= objects.length) {
+		callback();
+	} else {
+		objects[index].destroy().then(function(){
+			deleteRecursive(objects, index+1, callback);
+		});
+	}
+}
+
+exports.delete = function(req, res) {
+	var post = new Post();
+	post.id = req.params.id;
+
+	var query = new Parse.Query(Parse.Object.extend('Comment'));
+	query.equalTo("post", post);
+	query.find().then(function(results){
+		deleteRecursive(results, 0, function(){
+			post.destroy().then(function(){
+				res.redirect('/posts');
+			},
+			funciton() {
+				res.send(500, 'Failed deleting post');
+			});
+		});
+	},
+	function() {
+		res.send(500, 'Failed finding comments for post');
+	});
+};
