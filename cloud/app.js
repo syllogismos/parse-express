@@ -56,8 +56,12 @@ app.get('/posts', postsController.index);
 app.get('/posts/new', basicAuth, postsController.new);
 app.post('/posts', basicAuth, postsController.create);
 app.get('/posts/:id', postsController.show);
+app.get('/posts/:id/edit', basicAuth, postsController.edit);
+app.put('/posts/:id', basicAuth, postsController.update);
+app.del('/posts/:id', basicAuth, postsController.delete);
 
 app.post('/posts/:post_id/comments', commentsController.create);
+app.del('/posts/:post_id/comments/:id', basicAuth, commentsController.delete);
 
 // Attach the Express app to Cloud Code.
 app.listen();
