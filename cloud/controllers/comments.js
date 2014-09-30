@@ -24,5 +24,16 @@ exports.create = function(req, res) {
 	},
 	function() {
 		res.send(500, 'failed saving comment');
-	})
+	});
+}
+
+exports.delete = function(req, res) {
+	var comment = new Comment();
+	comment.id = req.params.id;
+	comment.destroy().then(function() {
+		res.redirect('/posts/' + req.params.post_id);
+	},
+	function() {
+		res.send(500, 'Failed deleting comment');
+	});
 }
