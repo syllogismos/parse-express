@@ -19,6 +19,7 @@ var userDescription = 'lulzz';
 app.set('views', 'cloud/views');  // Specify the folder to find templates
 app.set('view engine', 'ejs');    // Set the template engine
 app.use(express.bodyParser());    // Middleware for reading request body
+app.use(express.methodOverride());
 
 app.locals._ = _;
 app.locals.hex_md5 = md5.hex_md5;
@@ -50,6 +51,7 @@ app.post('/hello', function(req, res){
 
 // admin requests
 app.get('/admin', basicAuth, adminController.index);
+app.get('/admin/comments', basicAuth, commentsController.index);
 
 // posts requests
 app.get('/posts', postsController.index);
@@ -58,7 +60,29 @@ app.post('/posts', basicAuth, postsController.create);
 app.get('/posts/:id', postsController.show);
 app.get('/posts/:id/edit', basicAuth, postsController.edit);
 app.put('/posts/:id', basicAuth, postsController.update);
-app.del('/posts/:id', basicAuth, postsController.delete);
+// app.del('/posts/:id', basicAuth, postsController.delete);
+/*
+Update failed with Could not load triggers.  The error was Error: .delete() requ
+ires callback functions but got a [object Undefined]
+    at express_router.js:252:11
+    at Array.forEach (native)
+    at Router.route (express_router.js:248:13)
+    at Router.(anonymous function) [as delete] (express_router.js:270:16)
+    at Function.app.(anonymous function) (express_application.js:424:26)
+    at app.js:62:5
+    at main.js:1:1
+E2014-10-02T21:11:55.722Z]Deploy failed with error:Error: .delete() requires cal
+lback functions but got a [object Undefined]
+    at express_router.js:252:11
+    at Array.forEach (native)
+    at Router.route (express_router.js:248:13)
+    at Router.(anonymous function) [as delete] (express_router.js:270:16)
+    at Function.app.(anonymous function) (express_application.js:424:26)
+    at app.js:62:5
+    at main.js:1:1
+
+*/
+
 
 app.post('/posts/:post_id/comments', commentsController.create);
 app.del('/posts/:post_id/comments/:id', basicAuth, commentsController.delete);
