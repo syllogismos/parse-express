@@ -14,7 +14,7 @@ exports.index = function(req, res) {
 
 exports.create = function(req, res) {
 	var comment = new Comment();
-	var Post = Parse.Object.extend('post');
+	var Post = Parse.Object.extend('Post');
 	var post = new Post();
 	post.id = req.params.post_id;
 	comment.set('post', post);
