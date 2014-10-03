@@ -60,7 +60,7 @@ app.post('/posts', basicAuth, postsController.create);
 app.get('/posts/:id', postsController.show);
 app.get('/posts/:id/edit', basicAuth, postsController.edit);
 app.put('/posts/:id', basicAuth, postsController.update);
-// app.del('/posts/:id', basicAuth, postsController.delete);
+app.del('/posts/:id', basicAuth, postsController.delete);
 /*
 Update failed with Could not load triggers.  The error was Error: .delete() requ
 ires callback functions but got a [object Undefined]
