@@ -20,8 +20,9 @@ app.set('views', 'cloud/views');  // Specify the folder to find templates
 app.set('view engine', 'ejs');    // Set the template engine
 app.use(express.bodyParser());    // Middleware for reading request body
 app.use(express.methodOverride());
-// app.use(express.cookieSession());
-// app.use(express.csrf());
+app.use(express.cookieParser());
+app.use(express.cookieSession({keys: ["secret","keus2"], secret: "secret"}));
+app.use(express.csrf());
 
 app.locals._ = _;
 app.locals.hex_md5 = md5.hex_md5;
@@ -44,11 +45,11 @@ app.locals.snippet = function(text, length){
 
 // testing get, post VERBS
 app.get('/hello', function(req, res) {
-  res.render('hello', { message: 'Lel, you just set up your app!' });
+  res.render('hello', {token: req.session._csrf, message: 'Lel, you just set up your app!' });
 });
 app.get('/person', personsController.index);
 app.post('/hello', function(req, res){
-	res.render('hello', {message: req.body.message});
+	res.render('hello', {token: req.session._csrf, message: req.body.message});
 });
 
 // admin requests
