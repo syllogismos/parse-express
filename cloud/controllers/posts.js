@@ -18,7 +18,7 @@ exports.index = function(req, res) {
 
 // Display a form for creating a new post.
 exports.new = function(req, res){
-	res.render('posts/new', {});
+	res.render('posts/new', {token: req.session._csrf});
 };
 
 exports.create = function(req, res){
@@ -63,7 +63,7 @@ exports.edit = function(req, res) {
 	query.get(req.params.id).then(function(post) {
 		if (post) {
 			res.render('posts/edit', {
-				post: post
+				post: post,
 			})
 		} else {
 			res.send('specified post does not exist');
