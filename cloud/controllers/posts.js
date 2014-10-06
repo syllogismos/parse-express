@@ -49,7 +49,8 @@ exports.show = function(req, res){
 	}).then(function(comments){
 		res.render('posts/show', {
 			post: foundPost,
-			comments: comments
+			comments: comments,
+			token: req.session._csrf
 		});
 	},
 	function() {

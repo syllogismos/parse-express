@@ -13,6 +13,7 @@
     <textarea name='body' class='comment_body'></textarea>
   </div>
   <div class="write_comment">
+    <input type="hidden" name="_csrf" value="<%= token %>">
     <input type='submit' class="button_write_comment" value="Write a comment" />
   </div>
 </form>
