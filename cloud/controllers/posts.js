@@ -64,6 +64,7 @@ exports.edit = function(req, res) {
 		if (post) {
 			res.render('posts/edit', {
 				post: post,
+				token: req.session._csrf
 			})
 		} else {
 			res.send('specified post does not exist');
