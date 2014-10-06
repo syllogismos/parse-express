@@ -8,6 +8,7 @@
     <p><%= message %></p>
     <form method="post" action="/hello">
       <p>
+        <input type="hidden" name="_csrf" value="<%= token %>">
         <input name="message"></input>
         <input class="button" type="submit" value="Update Greeting">
       </p>
