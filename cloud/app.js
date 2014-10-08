@@ -24,6 +24,13 @@ app.use(express.cookieParser());
 app.use(express.cookieSession({keys: ["secret","keus2"], secret: "secret"}));
 app.use(express.csrf());
 
+app.dynamicHelpers({
+  token: function(req, res) {
+    return req.session._csrf;
+  }
+});
+
+
 app.locals._ = _;
 app.locals.hex_md5 = md5.hex_md5;
 app.locals.userEmail = userEmail;
