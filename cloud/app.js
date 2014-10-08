@@ -26,7 +26,7 @@ app.use(express.csrf());
 
 app.use(
   function(req, res, next) {
-    token = req.session._csrf;
+    res.locals.token = req.session._csrf;
     next();
 });
 
