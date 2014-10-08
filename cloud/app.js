@@ -24,10 +24,10 @@ app.use(express.cookieParser());
 app.use(express.cookieSession({keys: ["secret","keus2"], secret: "secret"}));
 app.use(express.csrf());
 
-app.dynamicHelpers({
-  token: function(req, res) {
-    return req.session._csrf;
-  }
+app.use(
+  function(req, res, next) {
+    token = req.session._csrf;
+    next();
 });
 
 
@@ -52,11 +52,11 @@ app.locals.snippet = function(text, length){
 
 // testing get, post VERBS
 app.get('/hello', function(req, res) {
-  res.render('hello', {token: req.session._csrf, message: 'Lel, you just set up your app!' });
+  res.render('hello', {message: 'Lel, you just set up your app!' });
 });
 app.get('/person', personsController.index);
 app.post('/hello', function(req, res){
-	res.render('hello', {token: req.session._csrf, message: req.body.message});
+	res.render('hello', {message: req.body.message});
 });
 
 // admin requests
